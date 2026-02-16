@@ -15,6 +15,7 @@ dependencies:
   intl: ^0.20.2
   shared_preferences: ^2.2.3
   url_launcher: ^6.3.1
+  audioplayers: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -30,6 +31,7 @@ flutter:
     - assets/bible/창세기.json
     - assets/bible/출애굽기.json
     - assets/bible/레위기.json
+    - assets/audio/
 
 flutter_icons:
   android: true
