@@ -308,27 +308,44 @@ class _ReadingScreenState extends State<ReadingScreen> {
   }
 
   Widget _buildChapter() {
-    final verses = _repo.chapterVerses(_bookJson!, _chapter);
+  final verses = _repo.chapterVerses(_bookJson!, _chapter);
 
-    return ListView(
-      controller: _controller,
-      padding: const EdgeInsets.all(16),
-      children: [
-        if (verses.isEmpty)
-          const Text('이 장 데이터가 없습니다. (JSON에 해당 장 키가 있는지 확인)')
-        else
-          ...verses.map(
-            (v) => Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Text(
-                v,
-                // ✅ 폰트 크기는 MediaQuery textScaler로 통제
-                style: const TextStyle(fontSize: 16, height: 1.45),
+  return ListView(
+    controller: _controller,
+    padding: const EdgeInsets.all(16),
+    children: [
+      if (verses.isEmpty)
+        const Text('이 장 데이터가 없습니다. (JSON에 해당 장 키가 있는지 확인)')
+      else
+        ...List.generate(verses.length, (index) {
+          final verseNo = index + 1;
+          final verseText = verses[index];
+
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: RichText(
+              textScaler: MediaQuery.of(context).textScaler,
+              text: TextSpan(
+                style: DefaultTextStyle.of(context).style.copyWith(
+                      fontSize: 16,
+                      height: 1.45,
+                      color: Colors.black,
+                    ),
+                children: [
+                  TextSpan(
+                    text: '$verseNo ',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.brown,
+                    ),
+                  ),
+                  TextSpan(text: verseText),
+                ],
               ),
             ),
-          ),
-        const SizedBox(height: 120),
-      ],
-    );
-  }
+          );
+        }),
+      const SizedBox(height: 120),
+    ],
+  );
 }
